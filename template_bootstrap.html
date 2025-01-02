@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Curriculum Vitae</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body class="bg-light">
+    <div class="container my-5">
+      <div class="text-center mb-5">
+        <h1>CURRICULUM VITAE</h1>
+      </div>
+      <div class="row mb-4">
+        <div class="col-md-9">
+          <table class="table table-bordered">
+            <tr>
+              <th>Name</th>
+              <td>{{ name }}</td>
+              <th>Surname</th>
+              <td>{{ surname }}</td>
+            </tr>
+            <tr>
+              <th>Mother</th>
+              <td>{{ mother_name }}</td>
+              <th>Father</th>
+              <td>{{ father_name }}</td>
+            </tr>
+            <tr>
+              <th>Height</th>
+              <td>{{ height }} cm</td>
+              <th>Weight</th>
+              <td>{{ weight }} kg</td>
+            </tr>
+            <tr>
+              <th>Marital Status / Children</th>
+              <td>{{ marital_status }}</td>
+              <th>Place of Birth</th>
+              <td>{{ place_of_birth }}</td>
+            </tr>
+            <tr>
+              <th>Address</th>
+              <td colspan="3">{{ address }}</td>
+            </tr>
+            <tr>
+              <th>Passport No</th>
+              <td>{{ passport_number }}</td>
+              <th>Citizenship</th>
+              <td>{{ citizenship }}</td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-3 text-center">
+          <img
+            src="images/image.png"
+            class="img-fluid rounded"
+            alt="Profile Picture"
+          />
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <h3>Education Details</h3>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Start Year / Finish Year</th>
+              <th>School Name</th>
+              <th>Subject / Training</th>
+              <th>Country</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for edu in education %}
+            <tr>
+              <td>{{ edu.education_start }} - {{ edu.education_finish }}</td>
+              <td>{{ edu.education_name }}</td>
+              <td>{{ edu.education_subject }}</td>
+              <td>{{ edu.education_country }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mb-4">
+        <h3>Work Experience</h3>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Start Year / Finish Year</th>
+              <th>Company's Name</th>
+              <th>Position</th>
+              <th>Country</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for work in work_experience %}
+            <tr>
+              <td>{{ work.work_start }} - {{ work.work_finish }}</td>
+              <td>{{ work.work_name }}</td>
+              <td>{{ work.work_subject }}</td>
+              <td>{{ work.work_country }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

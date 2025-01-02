@@ -2,7 +2,7 @@ import csv
 import json
 from jinja2 import Template
 from xhtml2pdf import pisa
-import os
+import requests
 
 class CVGenerator:
     def __init__(self, data):
@@ -74,7 +74,11 @@ class CVGenerator:
         html_content = template.render(**template_data)
         return html_content
 
-    def generate_pdf(self, html_content, output_file="result/CV.pdf"):
+    def generate_pdf(self, html_content, name):
+        # Format the file name based on the provided name
+        formatted_name = name.replace(" ", "_")  # Replace spaces with underscores
+        output_file = f"result/CV_1_{formatted_name}.pdf"
+        
         # Create PDF from HTML using xhtml2pdf
         with open(output_file, "wb") as pdf_file:
             pisa_status = pisa.CreatePDF(html_content, dest=pdf_file)
@@ -83,6 +87,29 @@ class CVGenerator:
             print(f"Error generating PDF: {pisa_status.err}")
         else:
             print(f"PDF saved to {output_file}")
+            
+
+    def generate_pdf_url(self, html_content, name):
+        # Format the file name based on the provided name
+        formatted_name = name.replace(" ", "_")  # Replace spaces with underscores
+        output_file = f"result/CV_{formatted_name}.pdf"
+
+        # API endpoint for generating PDF
+        url = "http://103.172.205.223:5000/generate-html-pdf"
+
+        try:
+            # Make a POST request to the API with the HTML content
+            response = requests.post(url, data={'html': html_content}, stream=True)
+            
+            if response.status_code == 200:
+                # Save the response content as a PDF file
+                with open(output_file, "wb") as pdf_file:
+                    pdf_file.write(response.content)
+                print(f"PDF saved to {output_file}")
+            else:
+                print(f"Error generating PDF: HTTP {response.status_code}, {response.text}")
+        except requests.RequestException as e:
+            print(f"Error making request to the PDF generation service: {e}")
 
 def get_input_from_csv(csv_file):
     try:
@@ -115,7 +142,13 @@ if __name__ == "__main__":
         html_content = cv.generate_html(template_path)
         save_html(html_content)
         
+        # Extract the name from the data
+        name = cv.data.get("name", "Unknown").strip()  # Default to "Unknown" if no name is found
+        
         # Generate PDF from HTML
-        cv.generate_pdf(html_content)
+        cv.generate_pdf(html_content, name)
+        cv.generate_pdf_url(html_content, name)
+        
+    
     except Exception as e:
         print(f"An error occurred: {e}")
